@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><title>Mon 1er jeu Phaser</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.51.0/dist/phaser.js">
+    </script>
+Afficher plus
+projet.html
+5 Ko
+﻿
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><title>Mon 1er jeu Phaser</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.51.0/dist/phaser.js">
+    </script>
+
+    <style type="text/css"> body 
+    
+        { margin: 0; 
+        }
+        
+    
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+
+        var config = {
+            type: Phaser.AUTO,
+            width: 768, height: 432,
+            physics: {
+            default: 'arcade',
+            arcade: {
+            gravity: { y: 1500},
+            debug: false
+            }},
+            scene: {preload: preload, create: create, update: update }
+            };
+
+        new Phaser.Game(config);
+
+        function preload(){
+
+            this.load.image("Phaser_tuilesdejeu", "assets/tilesetSolMontagne.png");
+
+            this.load.tilemapTiledJSON("carte", "map.json");  
+
+
+            this.load.spritesheet('perso','assets/perso.png',
+            { frameWidth: 32, frameHeight: 32 });
+
+        }
+
+
+
+            
+            
+
+
+
+        var player;
+        var cursors;
+        
+ 
+
+
+
+
+
+        function create (){
+            
+            const carteDuNiveau = this.add.tilemap("carte");
+
+            // importer TileSet 
+            const tileset = carteDuNiveau.addTilesetImage(
+                    "tilesetSolMontagne",
+                    "Phaser_tuilesdejeu"
+                    ); 
+                    
+            // importez les layers 1 apr 1 dans l'ordre d'apparition
+
+
+            const plateformes = carteDuNiveau.createStaticLayer(
+                    "plateformes",
+                    tileset
+                    );  
+            const obstacles = carteDuNiveau.createStaticLayer(
+                    "obstacles",
+                    tileset
+                    );  
+            
+                       
+                       
+            player = this.physics.add.sprite(900,2800, 'perso') 
+
+            plateformes.setCollisionByProperty({ estSolide: true });       
+            this.physics.add.collider(player, plateformes);
+            
+            obstacles.setCollisionByProperty({ kill:true });
+            this.physics.add.collider(player, obstacles, mort,null,this);
+
+            this.physics.world.setBounds(0, 0, 6400, 3200);
+            this.cameras.main.setBounds(0, 0, 6400, 3200);
+            this.cameras.main.startFollow(player);  
+
+            player.setCollideWorldBounds(true);
+        
+            this.anims.create({
+                key: 'animMarcheGauche',
+                frames: this.anims.generateFrameNumbers('perso', {start:0,end:3}),
+                frameRate: 8,
+                repeat: -1
+            });
+            this.anims.create({
+                key: 'animDeFace',
+                frames: [ { key: 'perso', frame: 4 } ],
+                frameRate: 20
+            });
+            this.anims.create({
+                key: 'animMarcheDroite',
+                frames: this.anims.generateFrameNumbers('perso', {start:5,end:8}),
+                frameRate: 8,
+                repeat: -1
+            });
+
+  
+
+
+
+
+            // touches clavier
+            cursors = this.input.keyboard.createCursorKeys();
+            this.keys = this.input.keyboard.addKeys({
+                q:  Phaser.Input.Keyboard.KeyCodes.Q,
+                d:  Phaser.Input.Keyboard.KeyCodes.D,
+                z:  Phaser.Input.Keyboard.KeyCodes.Z,
+            });
+        }
+        
+        function update(){
+            
+            
+
+                if (cursors.up.isDown || this.keys.z.isDown ){
+                    if (player.body.blocked.down) {
+                        player.setVelocityY(-400);}
+
+                }  
+
+                if (cursors.left.isDown || this.keys.q.isDown){ 
+                    player.setVelocityX(-200); 
+                    player.anims.play('animMarcheGauche', true);
+                }
+
+                else if (cursors.right.isDown || this.keys.d.isDown){ 
+                    player.setVelocityX(200);
+                    player.anims.play('animMarcheDroite', true);
+                }
+
+                else{ 
+                    player.setVelocityX(0); 
+                    player.anims.play('animDeFace');
+                }
+                player.setGravity(x = 0 ,y = -500)             
+            
+                if ((cursors.up.isDown || this.keys.z.isDown )  && player.body.blocked.right ) {
+                    player.setVelocityY(-400);
+                }  
+
+
+                if ((cursors.up.isDown || this.keys.z.isDown )  && player.body.blocked.left ) {
+                    player.setVelocity(400, -400);
+                }  
+
+        }
+
+        function mort (player,obstacles){
+            this.scene.restart()
+        }
+
+
+    </script>
+
+</body>
+</html>
+projet.html
+5 Ko
