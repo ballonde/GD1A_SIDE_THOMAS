@@ -561,7 +561,7 @@
     //gestion des mouvements en fonctions des touches
     if (gauche==true){ 
         if (space==true && jaugeBoost>5-reducCoupEndu){
-            player.setAccelerationX(-1000);
+            player.setAccelerationX(-500);
             player.setDragX(0.95);
             jaugeBoost=jaugeBoost-5+reducCoupEndu;
         }else{
@@ -572,7 +572,7 @@
     }
     else if (droite==true){ 
         if (space==true && jaugeBoost>5-reducCoupEndu){
-            player.setAccelerationX(1000)
+            player.setAccelerationX(500)
             player.setDragX(0.95);
             jaugeBoost=jaugeBoost-5+reducCoupEndu;
         }else{
@@ -588,7 +588,7 @@
 
     if (up==true){
         if (space==true && jaugeBoost>5-reducCoupEndu){
-            player.setAccelerationY(-1000);
+            player.setAccelerationY(-500);
             player.setDragY(0.95);
             jaugeBoost=jaugeBoost-5+reducCoupEndu;
         }else{
@@ -600,7 +600,7 @@
 
     if (down==true){ 
         if (space==true && jaugeBoost>5-reducCoupEndu){
-            player.setAccelerationY(1000);
+            player.setAccelerationY(500);
             player.setDragY(0.95);
             jaugeBoost=jaugeBoost-5+reducCoupEndu;
         }else{
