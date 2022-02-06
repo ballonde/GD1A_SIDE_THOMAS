@@ -113,9 +113,10 @@
             });
             
 
-            //importer image de fond
+            //importer menu
             menuDebut = this.add.image(640,360, 'menu').setDepth(1).setScrollFactor(0);
             const carteDuNiveau = this.add.tilemap("map");
+            
 
             // importer TileSet 
             const tileset = carteDuNiveau.addTilesetImage(
@@ -123,10 +124,11 @@
                 "tiles"
                     ); 
                     
-
+            //importer menu
             back = this.physics.add.staticGroup();
             back.create(4000, 1100, 'background');
 
+            // pour la parallaxe back.sideScroller(0.99,0.99) mais sa casse le code alors je le mets pas
             //créer image de porte et de capteur
             portes = this.physics.add.staticGroup();
             portes.create(7950, 1200, 'porte').setScale(2);
